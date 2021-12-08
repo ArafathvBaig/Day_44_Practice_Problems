@@ -31,8 +31,15 @@ class Employee_Payroll_Data
     get salary() { return this._salary; }
     set salary(salary) { this._salary = salary; }
 
-    get startDdate() { return this._startDate; }
-    set startDdate(startDate) { this._startDate = startDate; }
+    get startDate() { return this._startDate; }
+    set startDate(startDate) {
+        let future = new Date();
+        future.setDate(future.getDate() + 30);
+        if (startDate < new Date() || startDate < future)
+            this._startDate = startDate;
+        else
+            throw "Date is Invalid";
+    }
 
 	get note() { return this._note; }
     set note(note) { this._note = note; }

@@ -27,6 +27,25 @@ window.addEventListener ('DOMContentLoaded', (event) => {
     {
         output.textContent = salary.value;
     });
+
+    var date = document.getElementById("day");
+    var month = document.getElementById("month");
+    var year = document.getElementById("year");
+    const dateError = document.querySelector(".date-error");
+    date.addEventListener("change", checkDate);
+    month.addEventListener("change", checkDate);
+    year.addEventListener("change", checkDate);
+
+    function checkDate() 
+    {
+        let startDate = Date.parse( year.value + "-" + month.value + "-" + date.value );
+        try {
+        new Employee_Payroll_Data().startdate = startDate;
+        dateError.textContent = "";
+        } catch (e) {
+        dateError.textContent = e;
+        }
+    }
 });
 
 const save = () => {
@@ -64,8 +83,8 @@ const createEmployeePayroll = () => {
 	employeePayrollData.department = getSelectedValues('[name=department]');
 	employeePayrollData.salary = getInputValueById('#salary');
 	employeePayrollData.note = getInputValueById('#notes');
-	let date = getInputValueById('#day')+" "+getInputValueById('#month')+" "+getInputValueById('#year');
-	employeePayrollData.date = Date.parse(date);
+	let date = getInputValueById('#year')+" "+getInputValueById('#month')+" "+getInputValueById('#day');
+	employeePayrollData.startDate = new Date(Date.parse(date));
 	alert(employeePayrollData.toString());
 	return employeePayrollData;
 }
@@ -107,7 +126,8 @@ const resetForm = () => {
 	unsetSelectedValues('[name=profile]');
 	unsetSelectedValues('[name=gender]');
 	unsetSelectedValues('[name=department]');
-	setValue('#salary','');
+	//setValue('#salary','');
+    setTextValue('.salary-output', 400000);
 	setValue('#notes','');
 	setValue('#day','1');
 	setValue('#month','January');
